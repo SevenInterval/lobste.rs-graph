@@ -2,6 +2,7 @@ import { gql, ApolloServer } from "apollo-server-micro";
 import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-core"
 import neo4j from "neo4j-driver"
 import { Neo4jGraphQL } from "@neo4j/graphql";
+import "ts-tiny-invariant"
 
 const typeDefs = gql`
     type Article @exclude(operations: [CREATE, UPDATE, DELETE]) {
@@ -41,6 +42,7 @@ const neoSchema = new Neo4jGraphQL({ typeDefs, driver });
 const apolloServer = new ApolloServer({
     schema: await neoSchema.getSchema(),
     playground: true,
+    introspection: true,
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground]
 })
 
